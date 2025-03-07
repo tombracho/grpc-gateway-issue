@@ -1,0 +1,96 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ESG API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "VolunteeringHttp"
+    }
+  ],
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/user/{id}": {
+      "get": {
+        "summary": "Login\r\n\r\nLogin is a call with the method(s) GET within the \"VolunteeringHttp\" service.\r\nIt takes in \"UserId\" and returns a \"User\".\r\n\r\n## UserId\r\n| Field ID    | Name      | Type                                                       | Description                  |\r\n| ----------- | --------- | ---------------------------------------------------------  | ---------------------------- | \r\n| 1 | id | TYPE_INT32 |  | \r\n\r\n## User\r\n| Field ID    | Name      | Type                                                       | Description                  |\r\n| ----------- | --------- | ---------------------------------------------------------- | ---------------------------- | \r\n| 1 | id | TYPE_INT32 |  | \r\n| 2 | email | TYPE_STRING |  | \r\n| 3 | first_name | TYPE_STRING |  | \r\n| 4 | last_name | TYPE_STRING |  | \r\n| 5 | phone | TYPE_STRING |  | \r\n| 6 | avatar | TYPE_STRING |  | \r\n| 7 | city | TYPE_STRING |  | \r\n| 8 | address | TYPE_STRING |  | \r\n| 17 | updated_at | TYPE_MESSAGE |  |",
+        "operationId": "VolunteeringHttp_Login",
+        "responses": {
+          "200": {
+            "description": "Успех",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "404": {
+            "description": "Событие не найдено",
+            "schema": {},
+            "examples": {
+              "application/json": {
+                "error": "not found"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "VolunteeringHttp"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
