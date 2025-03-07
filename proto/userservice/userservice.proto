@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+
+option go_package = "generated/proto;volunteering";
+
+package volunteering_http;
+
+message User {
+  int32 id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string phone = 5;
+  string avatar = 6;
+  string city = 7;
+  string address = 8;
+  google.protobuf.Timestamp updated_at = 17;
+}
+
+message UserId {
+  int32 id = 1;
+}
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "ESG API";
+    version: "1.0.0";
+  };
+    host: "localhost:8080";
+    base_path: "/";
+    schemes: HTTP;
+};
+
+service VolunteeringHttp {
+  // Login
+  //
+  // {{.MethodDescriptorProto.Name}} is a call with the method(s) {{$first := true}}{{range .Bindings}}{{if $first}}{{$first = false}}{{else}}, {{end}}{{.HTTPMethod}}{{end}} within the "{{.Service.Name}}" service.
+  // It takes in "{{.RequestType.Name}}" and returns a "{{.ResponseType.Name}}".
+  //
+  // ## {{.RequestType.Name}}
+  // | Field ID    | Name      | Type                                                       | Description                  |
+  // | ----------- | --------- | ---------------------------------------------------------  | ---------------------------- | {{range .RequestType.Fields}}
+  // | {{.Number}} | {{.Name}} | {{if eq .Label.String "LABEL_REPEATED"}}[]{{end}}{{.Type}} | {{fieldcomments .Message .}} | {{end}}
+  //
+  // ## {{.ResponseType.Name}}
+  // | Field ID    | Name      | Type                                                       | Description                  |
+  // | ----------- | --------- | ---------------------------------------------------------- | ---------------------------- | {{range .ResponseType.Fields}}
+  // | {{.Number}} | {{.Name}} | {{if eq .Label.String "LABEL_REPEATED"}}[]{{end}}{{.Type}} | {{fieldcomments .Message .}} | {{end}}
+  rpc Login(UserId) returns (User) {
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      responses: [
+        {
+          key: "200"
+          value: {
+            description: "Успех";
+            schema: {
+              json_schema: {
+                ref: "#/definitions/User";
+              }
+            }
+          }
+        },
+        {
+          key: "404"
+          value: {
+            description: "Событие не найдено";
+            schema: {
+              json_schema: {}
+            };
+            examples: {
+              key: "application/json"
+              value: "{ \"error\": \"not found\" }"
+            }
+          }
+        }
+      ]
+    };
+    option (google.api.http) = {
+      get: "/api/user/{id}"
+    };
+  }
+}

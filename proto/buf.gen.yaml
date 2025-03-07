@@ -1,0 +1,22 @@
+version: v1
+plugins:
+  - name: go
+    out: gen/protos/go
+    opt: paths=source_relative
+  - name: go-grpc
+    out: gen/protos/go
+    opt:
+      - paths=source_relative
+  - name: grpc-gateway
+    out: gen/protos/go
+    opt:
+      - paths=source_relative
+  - name: openapiv2
+    out: swagger-ui
+    opt:
+      - allow_merge=true
+      - merge_file_name=openapi
+      - use_go_templates=true
+      - openapi_naming_strategy=simple
+      - disable_default_errors=true
+
